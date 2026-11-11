@@ -1,0 +1,12 @@
+{
+  "names": [
+    "license-apache-2.0",
+    "github-dependabot-merge",
+    "security-osv-remediation"
+  ],
+  "files": {
+    "README.md": { "contents": "# ${project.name}", "overwrite": false },
+    ".circleci/config.yml": { "overwrite": true },
+    "AGENTS.md": { "overwrite": true }
+  }
+}

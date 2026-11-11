@@ -1,0 +1,17 @@
+{
+  "overwrite": true,
+  "files": [
+    ".agents/skills/osv-remediation/SKILL.md",
+    ".github/workflows/security-osv-remediation.yml",
+    ".github/scripts/tests/check_existing_pr.bats",
+    ".github/scripts/tests/parse_scan_report.bats",
+    ".github/scripts/tests/publish_fix.bats"
+  ],
+  "executables": [
+    ".github/scripts/check_existing_pr.sh",
+    ".github/scripts/parse_scan_report.sh",
+    ".github/scripts/publish_fix.sh",
+    ".github/scripts/run_remediation.sh",
+    ".github/scripts/run_tests.sh"
+  ]
+}
