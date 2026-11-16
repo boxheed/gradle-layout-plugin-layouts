@@ -2,6 +2,7 @@
   "names": [
     "license-apache-2.0",
     "github-dependabot-merge",
+    "github-layout-sync",
     "security-osv-remediation"
   ],
   "files": {
