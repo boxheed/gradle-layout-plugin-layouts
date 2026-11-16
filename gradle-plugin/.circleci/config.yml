@@ -19,7 +19,7 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: ./gradlew clean build
+      - run: ./gradlew clean build 
   
   security:
     docker:
@@ -45,7 +45,7 @@ jobs:
       - checkout
       - run: ./gradlew tagSemver
       - run: "git checkout develop && git merge $CIRCLE_BRANCH -m \"fix(release): merge $CIRCLE_BRANCH into develop\" --no-ff"
-      - run: git push --atomic origin master develop --tags
+      - run: git push --atomic origin $CIRCLE_BRANCH develop --tags
 
   publish:
     docker:
@@ -61,7 +61,7 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: ./gradlew build publish githubRelease
+      - run: ./gradlew build publish publishPlugins githubRelease
 
 workflows:
   build:
