@@ -1,6 +1,6 @@
 # Instructions for AI Coding Agents (Jules)
 
-Welcome to `gradle-plugin-opinion`. This document outlines the project conventions, branching strategy, and verification steps that all autonomous agents (such as Google Jules) must follow.
+Welcome to this project. This document outlines the project conventions, branching strategy, and verification steps that all autonomous agents (such as Google Jules) must follow.
 
 ---
 
@@ -22,7 +22,7 @@ When remediating vulnerabilities detected by OSV Scanner or security issues, app
 
 1. **Primary Strategy (Target: `build.gradle`):**
    - **Direct Dependencies:** If the affected package is directly declared in `dependencies { ... }` or `buildscript { dependencies { ... } }`, upgrade its version number in place.
-   - **Transitive Dependencies:** Enforce fixed versions using Gradle dependency constraints within the project-level `dependencies { constraints { ... } }` block at the bottom of [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle):
+   - **Transitive Dependencies:** Enforce fixed versions using Gradle dependency constraints within the project-level `dependencies { constraints { ... } }` block at the bottom of [`build.gradle`](build.gradle):
 
      ```groovy
      dependencies {

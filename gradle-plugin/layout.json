@@ -6,7 +6,7 @@
   ],
   "files": {
     "README.md": { "contents": "# ${project.name}", "overwrite": false },
-    ".circleci/config.yml": { "overwrite": true },
-    "AGENTS.md": { "overwrite": true }
+    ".circleci/config.yml": { "overwrite": false },
+    "AGENTS.md": { "overwrite": false }
   }
 }
