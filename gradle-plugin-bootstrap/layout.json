@@ -1,0 +1,23 @@
+{
+  "names": [
+    "gradle-plugin"
+  ],
+  "files": {
+    ".github/dependabot.yml": { "overwrite": false },
+    "settings.gradle": {
+      "contents": "plugins {\n  id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'\n}\n\nrootProject.name = '${project.name}'\n",
+      "overwrite": false
+    },
+    "build.gradle": { "overwrite": false },
+    "buildSrc/build.gradle": { "overwrite": false },
+    "buildSrc/src/main/groovy/.gitkeep": { "contents": "", "overwrite": false },
+    "buildSrc/src/main/java/.gitkeep": { "contents": "", "overwrite": false },
+    "buildSrc/src/main/resources/.gitkeep": { "contents": "", "overwrite": false },
+    "buildSrc/src/test/groovy/.gitkeep": { "contents": "", "overwrite": false },
+    "buildSrc/src/test/java/.gitkeep": { "contents": "", "overwrite": false },
+    "buildSrc/src/test/resources/.gitkeep": { "contents": "", "overwrite": false }
+  },
+  "executables": {
+    "init-gradle.sh": { "overwrite": false }
+  }
+}
