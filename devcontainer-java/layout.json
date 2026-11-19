@@ -1,0 +1,20 @@
+{
+  "overwrite": true,
+  "files": {
+    ".devcontainer/Dockerfile": { "overwrite": false },
+    ".devcontainer/devcontainer.json": { "overwrite": false }
+  },
+  "executables": [
+    ".devcontainer/install_packages",
+    ".devcontainer/scripts/run-scripts.sh",
+    ".devcontainer/scripts/post-create/01-hello.sh",
+    ".devcontainer/scripts/post-create/02-install-antigravity-cli.sh",
+    ".devcontainer/scripts/post-create/03-install-uv.sh",
+    ".devcontainer/scripts/post-create/04-install-spec-kit.sh",
+    ".devcontainer/scripts/post-create/05-install-gh-cli.sh",
+    ".devcontainer/scripts/post-start/01-hello.sh",
+    ".devcontainer/scripts/post-start/02-fix-permissions.sh",
+    ".devcontainer/scripts/post-start/03-git-safe-directories.sh",
+    ".devcontainer/scripts/post-start/04-fix-ssh-permissions.sh"
+  ]
+}

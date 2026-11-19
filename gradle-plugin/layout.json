@@ -3,7 +3,8 @@
     "license-apache-2.0",
     "github-dependabot-merge",
     "github-layout-sync",
-    "security-osv-remediation"
+    "security-osv-remediation",
+    "devcontainer-java"
   ],
   "files": {
     "README.md": { "contents": "# ${project.name}", "overwrite": false },

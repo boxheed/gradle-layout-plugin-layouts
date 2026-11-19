@@ -4,8 +4,8 @@ set -eu
 GRADLE_VERSION="${GRADLE_VERSION:-latest}"
 FALLBACK_GRADLE_VERSION="9.9.1"
 FORCE="false"
-CACHE_DIR="${XDG_CACHE_HOME:-${HOME}/.cache}/gradle-layout-plugin"
 TARGET_DIR="${TARGET_DIR:-.}"
+TMP_DIR=""
 
 usage() {
   cat <<'EOF'
@@ -15,10 +15,16 @@ Initialize the Gradle wrapper in the current directory without requiring a
 system-wide Gradle installation.
 
 Options:
-      --gradle-version <ver>   Gradle version for wrapper/cache (default: latest)
+      --gradle-version <ver>   Gradle version for wrapper/download (default: latest)
       --force                  Regenerate wrapper even if ./gradlew exists
   -h, --help                   Show this help message
 EOF
+}
+
+cleanup() {
+  if [ -n "${TMP_DIR}" ] && [ -d "${TMP_DIR}" ]; then
+    rm -rf "${TMP_DIR}"
+  fi
 }
 
 log_info() {
@@ -89,9 +95,10 @@ resolve_gradle_bin() {
   fi
 
   dl_version="$(resolve_gradle_version)"
-  cached_gradle="${CACHE_DIR}/gradle-${dl_version}/bin/gradle"
-  if [ -x "${cached_gradle}" ]; then
-    printf '%s\n' "${cached_gradle}"
+  dl_dir="${TMP_DIR:-$(mktemp -d)}"
+  temp_gradle="${dl_dir}/gradle-${dl_version}/bin/gradle"
+  if [ -x "${temp_gradle}" ]; then
+    printf '%s\n' "${temp_gradle}"
     return 0
   fi
 
@@ -100,33 +107,32 @@ resolve_gradle_bin() {
     exit 1
   fi
 
-  mkdir -p "${CACHE_DIR}"
-  zip_path="${CACHE_DIR}/gradle-${dl_version}-bin.zip"
+  zip_path="${dl_dir}/gradle-${dl_version}-bin.zip"
   dist_url="https://services.gradle.org/distributions/gradle-${dl_version}-bin.zip"
-  printf '%s\n' "[init-gradle] Downloading Gradle ${dl_version} to ${CACHE_DIR}..." >&2
+  printf '%s\n' "[init-gradle] Downloading Gradle ${dl_version}..." >&2
   curl -sSLf "${dist_url}" -o "${zip_path}"
   if command -v unzip >/dev/null 2>&1; then
-    unzip -q -o "${zip_path}" -d "${CACHE_DIR}"
+    unzip -q -o "${zip_path}" -d "${dl_dir}"
   elif command -v python3 >/dev/null 2>&1; then
-    python3 -m zipfile -e "${zip_path}" "${CACHE_DIR}"
+    python3 -m zipfile -e "${zip_path}" "${dl_dir}"
   elif command -v jar >/dev/null 2>&1; then
-    (cd "${CACHE_DIR}" && jar xf "${zip_path}")
+    (cd "${dl_dir}" && jar xf "${zip_path}")
   else
     rm -f "${zip_path}"
     log_err "'unzip', 'python3', or 'jar' is required to extract Gradle ${dl_version}."
     exit 1
   fi
   rm -f "${zip_path}"
-  if [ -f "${cached_gradle}" ]; then
-    chmod +x "${cached_gradle}"
+  if [ -f "${temp_gradle}" ]; then
+    chmod +x "${temp_gradle}"
   fi
 
-  if [ ! -x "${cached_gradle}" ]; then
-    log_err "Failed to install Gradle ${dl_version} into ${CACHE_DIR}."
+  if [ ! -x "${temp_gradle}" ]; then
+    log_err "Failed to install Gradle ${dl_version} into ${dl_dir}."
     exit 1
   fi
 
-  printf '%s\n' "${cached_gradle}"
+  printf '%s\n' "${temp_gradle}"
 }
 
 main() {
@@ -136,6 +142,9 @@ main() {
     log_info "Gradle wrapper already exists at ${TARGET_DIR}/gradlew (use --force to regenerate)."
     return 0
   fi
+
+  TMP_DIR="$(mktemp -d)"
+  trap cleanup EXIT HUP INT TERM
 
   gradle_bin="$(resolve_gradle_bin)"
   log_info "Initializing Gradle wrapper ${GRADLE_VERSION} using ${gradle_bin}..."

@@ -76,16 +76,16 @@ EOF
   [[ "$output" == *"bin"* ]]
 }
 
-@test "uses cached gradle when gradle is not on PATH" {
-  local cache="${TEST_TEMP_DIR}/cache"
+@test "uses gradle in TMP_DIR when gradle is not on PATH" {
+  local tmp_gradle="${TEST_TEMP_DIR}/tmp-gradle"
   local fake_bin="${TEST_TEMP_DIR}/fake-bin"
-  mkdir -p "${cache}/gradle-8.14/bin" "${fake_bin}"
+  mkdir -p "${tmp_gradle}/gradle-8.14/bin" "${fake_bin}"
 
-  cat >"${cache}/gradle-8.14/bin/gradle" <<'EOF'
+  cat >"${tmp_gradle}/gradle-8.14/bin/gradle" <<'EOF'
 #!/usr/bin/env sh
 exit 0
 EOF
-  chmod +x "${cache}/gradle-8.14/bin/gradle"
+  chmod +x "${tmp_gradle}/gradle-8.14/bin/gradle"
 
   cat >"${fake_bin}/java" <<'EOF'
 #!/usr/bin/env sh
@@ -93,9 +93,9 @@ exit 0
 EOF
   chmod +x "${fake_bin}/java"
 
-  run env INIT_GRADLE_SOURCE_ONLY=1 sh -c "PATH='${fake_bin}'; export PATH; . '${INIT_SH}'; CACHE_DIR='${cache}'; GRADLE_VERSION='8.14'; resolve_gradle_bin"
+  run env INIT_GRADLE_SOURCE_ONLY=1 sh -c "PATH='${fake_bin}'; export PATH; . '${INIT_SH}'; TMP_DIR='${tmp_gradle}'; GRADLE_VERSION='8.14'; resolve_gradle_bin"
   [ "$status" -eq 0 ]
-  [ "$output" = "${cache}/gradle-8.14/bin/gradle" ]
+  [ "$output" = "${tmp_gradle}/gradle-8.14/bin/gradle" ]
 }
 
 @test "resolve_gradle_version resolves latest from Gradle versions endpoint" {
@@ -137,8 +137,8 @@ EOF
 
 @test "fails when java is present without gradle or curl" {
   local fake_bin="${TEST_TEMP_DIR}/fake-bin"
-  local cache="${TEST_TEMP_DIR}/empty-cache"
-  mkdir -p "${fake_bin}" "${cache}"
+  local tmp_gradle="${TEST_TEMP_DIR}/empty-tmp"
+  mkdir -p "${fake_bin}" "${tmp_gradle}"
 
   cat >"${fake_bin}/java" <<'EOF'
 #!/usr/bin/env sh
@@ -146,7 +146,7 @@ exit 0
 EOF
   chmod +x "${fake_bin}/java"
 
-  run env INIT_GRADLE_SOURCE_ONLY=1 sh -c "PATH='${fake_bin}'; export PATH; . '${INIT_SH}'; CACHE_DIR='${cache}'; resolve_gradle_bin"
+  run env INIT_GRADLE_SOURCE_ONLY=1 sh -c "PATH='${fake_bin}'; export PATH; . '${INIT_SH}'; TMP_DIR='${tmp_gradle}'; resolve_gradle_bin"
   [ "$status" -ne 0 ]
   [[ "$output" == *"'curl' is required to download Gradle"* ]]
 }
