@@ -1,11 +1,11 @@
 {
   "names": [
-    "devcontainer-java"
+    "devcontainer-java",
+    "editorconfig",
+    "git-defaults"
   ],
   "files": {
     "README.md": { "contents": "# ${project.name}", "overwrite": false },
-    ".gitignore": { "overwrite": false },
-    ".editorconfig": { "overwrite": false },
-    ".gitattributes": { "overwrite": false }
+    ".gitignore": { "overwrite": false }
   }
 }

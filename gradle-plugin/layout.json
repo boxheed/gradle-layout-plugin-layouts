@@ -4,7 +4,9 @@
     "github-dependabot-merge",
     "github-layout-sync",
     "security-osv-remediation",
-    "devcontainer-java"
+    "devcontainer-java",
+    "editorconfig",
+    "git-defaults"
   ],
   "files": {
     "README.md": { "contents": "# ${project.name}", "overwrite": false },
