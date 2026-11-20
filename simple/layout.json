@@ -1,0 +1,11 @@
+{
+  "names": [
+    "devcontainer-java"
+  ],
+  "files": {
+    "README.md": { "contents": "# ${project.name}", "overwrite": false },
+    ".gitignore": { "overwrite": false },
+    ".editorconfig": { "overwrite": false },
+    ".gitattributes": { "overwrite": false }
+  }
+}
