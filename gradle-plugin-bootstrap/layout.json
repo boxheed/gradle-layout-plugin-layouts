@@ -3,6 +3,7 @@
     "gradle-plugin"
   ],
   "files": {
+    ".gitignore": { "overwrite": false },
     ".github/dependabot.yml": { "overwrite": false },
     "settings.gradle": {
       "contents": "plugins {\n  id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'\n}\n\nrootProject.name = '${project.name}'\n",

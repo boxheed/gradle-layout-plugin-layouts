@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDEs & Editors
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+out/
+
+# Tooling & Local State
+.lefthook/
+lefthook-local.yml
+.osv-scanner/
+.git-semver/
+*.lockfile
+
+# OS
+.DS_Store
+Thumbs.db
